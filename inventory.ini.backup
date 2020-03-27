@@ -1,14 +1,16 @@
 ## TiDB Cluster Part
 [tidb_servers]
-tidb1 ansible_host=172.16.5.32 tidb_port=40000
+192.168.0.2
 
 [tikv_servers]
-tikv1 ansible_host=172.16.5.31 tikv_port=40010 tikv_status_port=40011
-tikv2 ansible_host=172.16.5.33 tikv_port=40010 tikv_status_port=40011
-tikv3 ansible_host=172.16.5.34 tikv_port=40010 tikv_status_port=40011
+192.168.0.3
+192.168.0.4
+192.168.0.5
 
 [pd_servers]
-172.16.5.32 pd_client_port=40001 pd_peer_port=40002
+192.168.0.6
+192.168.0.7
+192.168.0.8
 
 [spark_master]
 
@@ -21,20 +23,24 @@ tikv3 ansible_host=172.16.5.34 tikv_port=40010 tikv_status_port=40011
 ## Monitoring Part
 # prometheus and pushgateway servers
 [monitoring_servers]
-172.16.5.32 prometheus_port=40003 pushgateway_port=40004
+192.168.0.10
 
 [grafana_servers]
-172.16.5.32 grafana_port=40005 grafana_collector_port=40006
+192.168.0.10
 
 # node_exporter and blackbox_exporter servers
 [monitored_servers]
-172.16.5.31 node_exporter_port=40007 blackbox_exporter_port=40008
-172.16.5.32 node_exporter_port=40007 blackbox_exporter_port=40008
-172.16.5.33 node_exporter_port=40007 blackbox_exporter_port=40008
-172.16.5.34 node_exporter_port=40007 blackbox_exporter_port=40008
+192.168.0.2
+192.168.0.3
+192.168.0.4
+192.168.0.5
+192.168.0.6
+192.168.0.7
+192.168.0.8
+192.168.0.10
 
 [alertmanager_servers]
-172.16.5.32 alertmanager_port=40007
+192.168.0.10
 
 [kafka_exporter_servers]
 
@@ -52,13 +58,13 @@ tikv3 ansible_host=172.16.5.34 tikv_port=40010 tikv_status_port=40011
 
 ## Global variables
 [all:vars]
-deploy_dir = /data3/lxt/deploy
+deploy_dir = /home/tidb/deploy
 
 ## Connection
 # ssh via normal user
-ansible_user = lxt
+ansible_user = tidb
 
-cluster_name = lxt-balance-perf-cluster
+cluster_name = test-cluster
 
 # CPU architecture: amd64, arm64
 cpu_architecture = amd64
@@ -73,7 +79,7 @@ timezone = Asia/Shanghai
 enable_firewalld = False
 # check NTP service
 enable_ntpd = True
-set_hostname = True
+set_hostname = False
 
 ## binlog trigger
 enable_binlog = False
@@ -106,6 +112,6 @@ grafana_admin_password = "admin"
 ### Collect diagnosis
 collect_log_recent_hours = 2
 
-enable_bandwidth_limit = False
+enable_bandwidth_limit = True
 # default: 10Mb/s, unit: Kbit/s
 collect_bandwidth_limit = 10000
